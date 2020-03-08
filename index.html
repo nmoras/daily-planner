@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,32 +20,27 @@
     }
   </style>  
 </head>
-
 <body>
   <header class="jumbotron">
     <h1 class="display-3">Work Day Scheduler</h1>
     <p class="lead">A simple calendar app for scheduling your work day</p>
     <p id="currentDay" class="lead"></p>
   </header>
-
   <div class="container">
     <div class="time-block">
-
-
-      <!-- Timeblocks go here -->
+        <!-- Timeblocks go here -->
     </div>
   </div>
   <script>
     $(document).ready(function () {
       var dailyPlanner = [];
-
       if(localStorage.dailyPlanner != null){
         dailyPlanner = JSON.parse(localStorage.dailyPlanner);
-        console.log(dailyPlanner);
+        // console.log(dailyPlanner);
         generatePlanner();
         for (let i = 0; i<dailyPlanner.length; i++){
-          console.log(dailyPlanner[i].hour);
-          console.log(dailyPlanner[i].value);
+          // console.log(dailyPlanner[i].hour);
+          // console.log(dailyPlanner[i].value);
           for (var j = 0; j < 25; j++){
               if(dailyPlanner[i].hour == `hour${j}`);
               {
@@ -55,16 +49,13 @@
           }
         }
       } 
-      
-
       var m = moment().format("dddd, MMMM Do YYYY HH");
-      console.log(m);
+      // console.log(m);
       $("#currentDay").text(m);
 
       function generatePlanner(){
       for (var i = 1; i <= 24; i++) {
         $(".container").append(
-
           `<div class="row" >
             <div class="col-1 hour ">${i}:00</div>
             <input class="col-8 input" id="hour${i}" type="text"></input>
@@ -80,35 +71,33 @@
       
 
       function saveBtn() {
-        
-        $(this).find('i').toggleClass('fa-unlock fa-lock');
-        
         var input = $(`#hour${this.id}`);
-        console.log(input);
         var inputValue = input[0].value;
-        console.log(inputValue);
-
+        $(this).find('i').toggleClass('fa-unlock fa-lock')
+        
+        if($(this).find('i').hasClass('fa-lock')){
+        // console.log(input);// console.log(inputValue);
         var activity = {
            hour: `hour${this.id}`,
            value: inputValue
         }
-        
         dailyPlanner.push(activity);
-
+        localStorage.setItem('dailyPlanner', JSON.stringify(dailyPlanner));
+        // console.log(dailyPlanner);
+        // localStorage.myPlanner = JSON.stringify(dailyPlanner);
+      }
+       if($(this).find('i').hasClass('fa-unlock')){
+        dailyPlanner = JSON.parse(localStorage.dailyPlanner);
+        var index = dailyPlanner.indexOf(activity)
+        dailyPlanner.splice(index, 1)
         localStorage.setItem('dailyPlanner', JSON.stringify(dailyPlanner));
 
-        console.log(dailyPlanner);
-
-        // localStorage.myPlanner = JSON.stringify(dailyPlanner);
-
-      };
-
+    };
+  };
       var time = [00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
       var btnIcon = $("#saveBtn").val();
       var x = moment().format("HH");
       // console.log( x  );
-
-
       for (var i = 0; i < time.length; i++) {
         if (time[i] == x) {
           $(`#hour${i}`).addClass("present");
@@ -117,15 +106,9 @@
         } else {
           $(`#hour${i}`).addClass("future");
         }
-
-      };
-
-      
+      };  
     });
-
-
   </script>
-
   <script src="moment.js"></script>
 
 </body>
