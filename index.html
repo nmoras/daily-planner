@@ -37,14 +37,17 @@
       var dailyPlanner = [];
       if(localStorage.dailyPlanner != null){
         dailyPlanner = JSON.parse(localStorage.dailyPlanner);
-        // console.log(dailyPlanner);
+        console.log(dailyPlanner);
         for (let i = 0; i<dailyPlanner.length; i++){
-          // console.log(dailyPlanner[i].hour);
+          console.log(dailyPlanner[i].hour);
           // console.log(dailyPlanner[i].value);
-          for (var j = 0; j < 25; j++){
-              if(dailyPlanner[i].hour == `hour${j}`);
+          for (var j = 0; j < 24; j++){
+              if(dailyPlanner[i].hour == `hour${j}`)
               {
-                $(`#hour${j}`).val(dailyPlanner[i].value); 
+                console.log(`hour${j}`);
+                $(`#hour${j}`).val(dailyPlanner[i].value);
+                $(`#lockIcon${j}`).removeClass('fa-unlock');
+                $(`#lockIcon${j}`).addClass('fa-lock');
               }
           }
         }
@@ -54,13 +57,13 @@
       $("#currentDay").text(m);
 
     function generatePlanner(){
-      for (var i = 1; i <= 24; i++) {
+      for (var i = 0; i <= 24; i++) {
         $(".container").append(
           `<div class="row" >
             <div class="col-1 hour ">${i}:00</div>
             <input class="col-8 input" id="hour${i}" type="text"></input>
             <button class="col-1 saveBtn" id="${i}">
-              <i id="lockIcon" class="fas fa-unlock"></i>
+              <i id="lockIcon${i}" class="fas fa-unlock"></i>
             </button>
            </div>`
         );    
@@ -81,13 +84,13 @@
         if($(this).find('i').hasClass('fa-lock')){
         // console.log(input);// console.log(inputValue);
         dailyPlanner.push(activity);
+        console.log(dailyPlanner);
         localStorage.setItem('dailyPlanner', JSON.stringify(dailyPlanner));
         // console.log(dailyPlanner);
         // localStorage.myPlanner = JSON.stringify(dailyPlanner);
       }
        if( $(this).find('i').hasClass('fa-unlock') ){
         dailyPlanner = JSON.parse(localStorage.dailyPlanner);
-        console.log(dailyPlanner);
         for( let i = 0; i < dailyPlanner.length; i++){
           if (activity.hour == dailyPlanner[i].hour){
             console.log(dailyPlanner[i].hour);
@@ -96,8 +99,8 @@
             console.log(dailyPlanner);
             localStorage.setItem('dailyPlanner', JSON.stringify(dailyPlanner));
             for (let i = 0; i<dailyPlanner.length; i++){
-              for (var j = 0; j < 25; j++){
-              if(dailyPlanner[i].hour == `hour${j}`);
+              for (var j = 0; j < 24; j++){
+              if(dailyPlanner[i].hour == `hour${j}`)
               {
                 $(`#hour${j}`).val(dailyPlanner[i].value); 
               }
