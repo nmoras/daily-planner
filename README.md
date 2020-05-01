@@ -6,3 +6,6 @@ A simple calendar application that allows the user to save events for each hour 
   1. JavaScript
   2. CSS
   3. jQuery
+
+## 
+![Daily planner](https://github.com/nmoras/daily-planner/blob/master/assets/dp.png)
